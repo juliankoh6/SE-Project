@@ -23,7 +23,7 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.RegisterButton.clicked.connect(self.register)
         self.ForgotPasswordpushButton.clicked.connect(self.forgot_password)
 
-    #sign in user and error handling for invalid inputs
+    # Sign in user and error handling for invalid inputs
     def login(self):
         email = self.Email_line.text()
         password = self.Password_line.text()
