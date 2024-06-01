@@ -4,7 +4,7 @@ from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 
 # Load the UI file
-qtCreatorFile = "Call A doctor Home page.ui"
+qtCreatorFile = "Call A doctor login page.ui"
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
