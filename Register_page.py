@@ -90,6 +90,10 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.warning(self, "Input Error", "Please fill in all required fields")
                 return
 
+            if not re.match(r"^[A-Za-z]+$", name):
+                QMessageBox.warning(self, "Name Error", "Name should only contain alphabets")
+                return
+
             # Check if email format is valid
             if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
                 QMessageBox.warning(self, "Email Error", "Please enter a valid email address")
