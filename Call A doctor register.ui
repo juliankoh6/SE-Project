@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>841</width>
-    <height>537</height>
+    <height>564</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -221,7 +221,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>350</y>
+     <y>360</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -301,7 +301,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>430</y>
+     <y>440</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -330,8 +330,8 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    </property>
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>390</y>
+     <x>100</x>
+     <y>400</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -381,7 +381,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>540</x>
-     <y>250</y>
+     <y>270</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -411,7 +411,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>210</y>
+     <y>230</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -464,7 +464,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>310</y>
+     <y>320</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -514,7 +514,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>540</x>
-     <y>340</y>
+     <y>360</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -544,7 +544,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>160</y>
+     <y>170</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -597,7 +597,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>160</y>
+     <y>170</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -647,7 +647,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>560</x>
-     <y>450</y>
+     <y>480</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -740,7 +740,7 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
    <property name="geometry">
     <rect>
      <x>540</x>
-     <y>170</y>
+     <y>180</y>
      <width>201</width>
      <height>31</height>
     </rect>
@@ -749,8 +749,8 @@ font: 63 10pt &quot;Yu Gothic UI Semibold&quot;;</string>
   <widget class="QCommandLinkButton" name="commandLinkButton">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>490</y>
+     <x>30</x>
+     <y>510</y>
      <width>185</width>
      <height>41</height>
     </rect>

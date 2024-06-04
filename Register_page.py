@@ -61,6 +61,7 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
             # Add empty item to state combo box
             self.statebox.addItem("")
 
+            # Only populating states box if country is selected
             selected_country = self.countrybox.currentText()
             if selected_country:
                 country_id = self.country_map[selected_country]
@@ -85,13 +86,16 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
             country = self.countrybox.currentText()
             role = 'Patient'  # Default role
 
-            # Check if all required fields are filled
-            if not all([name, username, email, password, confirm_password, address_line1, state, country]):
-                QMessageBox.warning(self, "Input Error", "Please fill in all required fields")
-                return
 
+            # Check if name only contains alphabets
             if not re.match(r"^[A-Za-z]+$", name):
                 QMessageBox.warning(self, "Name Error", "Name should only contain alphabets")
+                return
+
+                # Check if username already exists
+            self.cursor.execute("SELECT 1 FROM Users WHERE Username = ?", (username,))
+            if self.cursor.fetchone():
+                QMessageBox.warning(self, "Username Error", "Username already exists")
                 return
 
             # Check if email format is valid
@@ -99,21 +103,20 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.warning(self, "Email Error", "Please enter a valid email address")
                 return
 
+            # Check if email already exists
+            self.cursor.execute("SELECT 1 FROM Users WHERE Email = ?", (email,))
+            if self.cursor.fetchone():
+                QMessageBox.warning(self, "Email Error", "Email already exists")
+                return
+
             # Check if password and confirm password match
             if password != confirm_password:
                 QMessageBox.warning(self, "Password Error", "Passwords do not match")
                 return
 
-            # Check if username already exists
-            self.cursor.execute("SELECT 1 FROM Users WHERE Username = ?", (username,))
-            if self.cursor.fetchone():
-                QMessageBox.warning(self, "Username Error", "Username already exists")
-                return
-
-            # Check if email already exists
-            self.cursor.execute("SELECT 1 FROM Users WHERE Email = ?", (email,))
-            if self.cursor.fetchone():
-                QMessageBox.warning(self, "Email Error", "Email already exists")
+            # Check if all required fields are filled
+            if not all([name, username, email, password, confirm_password, address_line1, state, country]):
+                QMessageBox.warning(self, "Input Error", "Please fill in all required fields")
                 return
 
             # Insert new user into the Users table
@@ -135,6 +138,7 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
         except Exception as e:
             self.show_error_message("Error", f"An unexpected error occurred: {e}")
 
+    # Clear form after input registered
     def clear_form(self):
         self.NameInput.clear()
         self.Username.clear()
