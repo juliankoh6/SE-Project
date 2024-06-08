@@ -5,7 +5,7 @@ from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
 
 # Load the UI file
-qtCreatorFile = "Call A doctor register.ui"  # Ensure this path is correct
+qtCreatorFile = "CAD_register_ui..ui"  # Ensure this path is correct
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
