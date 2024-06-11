@@ -3,9 +3,10 @@ import sqlite3
 import re
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
+from CAD_Login import CallADoctorApp
 
 # Load the UI file
-qtCreatorFile = "CAD_register_ui..ui"  # Ensure this path is correct
+qtCreatorFile = "Call A doctor register.ui"
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
@@ -27,6 +28,9 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def initUI(self):
         # Connect buttons to their respective functions
         self.RegisterButton.clicked.connect(self.register_account)
+
+        # Assuming commandLinkButton is a part of the UI setup
+        self.commandLinkButton.clicked.connect(self.redirect_to_login)
 
         # Connect combo box changes to respective functions
         self.countrybox.currentIndexChanged.connect(self.on_country_changed)
@@ -92,7 +96,7 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.warning(self, "Name Error", "Name should only contain alphabets")
                 return
 
-                # Check if username already exists
+            # Check if username already exists
             self.cursor.execute("SELECT 1 FROM Users WHERE Username = ?", (username,))
             if self.cursor.fetchone():
                 QMessageBox.warning(self, "Username Error", "Username already exists")
@@ -154,7 +158,8 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
         QMessageBox.critical(self, title, message)
 
     def redirect_to_login(self):
-        QtCore.QProcess.startDetached("python", ["CAD_Login.py"])
+        self.login_window = CallADoctorApp()
+        self.login_window.show()
         self.close()
 
 if __name__ == "__main__":
