@@ -124,7 +124,7 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.close()
 
 
-
+    # Open patient registration page
     def register_page(self):
         # Open user registration page
         from Register_page import RegisterAccountApp
@@ -132,6 +132,7 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.registration_window.show()
         self.close()
 
+    # Open clinic registration page
     def register_clinic_page(self):
         # Open clinic registration page
         from Clinic_registration import ClinicRegisterApp
@@ -139,6 +140,7 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.registration_clinic_window.show()
         self.close()
 
+    # Open Partnered clinics page
     def partnered_clinics_page(self):
         # Open partnered clinics information page
         from Clinics_Info import ClinicInfo
@@ -146,6 +148,7 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.partnered_clinics_window.show()
         self.close()
 
+    # Open Forgot Password page
     def forgot_password(self):
         # Open password retrieval page
         from ForgotPassword import ForgotPassword
