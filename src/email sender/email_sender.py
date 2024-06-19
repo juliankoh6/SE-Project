@@ -22,12 +22,12 @@ def send_email(receiver_email, subject, body, sender_email='kohjulian150@gmail.c
         print(f"Error sending email: {e}")
 
 
-# Function to encode a password for security
+# Function to hash a password for security
 def encrypt(password):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     return hashed_password.decode('utf-8')
 
 
-# Function to decode the password
+# Function to verify password with the hashed password
 def verify_password(password, hashed_password):
     return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
