@@ -3,13 +3,15 @@ import sqlite3
 import re
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
-from CAD_Login import CallADoctorApp
+from email_sender import encrypt
 
 # Load the UI file
-qtCreatorFile = "Call A doctor register.ui"
+qtCreatorFile = "CAD_register_ui.ui"
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
+
+# Main application class, Handles UI and functionality of Register page
 class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -17,7 +19,7 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Connect to SQLite database
         try:
-            self.conn = sqlite3.connect("call_a_doctor.db")  # Ensure this path is correct
+            self.conn = sqlite3.connect("call_a_doctor.db")
             self.cursor = self.conn.cursor()
             print("Database connection and cursor initialized successfully")
         except sqlite3.Error as e:
@@ -26,89 +28,49 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initUI()
 
     def initUI(self):
-        # Connect buttons to their respective functions
+        # Register user information
         self.RegisterButton.clicked.connect(self.register_account)
-
-        # Assuming commandLinkButton is a part of the UI setup
+        # Return to Login Page
         self.commandLinkButton.clicked.connect(self.redirect_to_login)
-
-        # Connect combo box changes to respective functions
-        self.countrybox.currentIndexChanged.connect(self.on_country_changed)
-
-        # Populate combo boxes with options
-        self.populate_combo_boxes()
-
-    def populate_combo_boxes(self):
-        try:
-            # Fetch countries from database
-            self.cursor.execute("SELECT id, name FROM locations WHERE type = 'country'")
-            countries = self.cursor.fetchall()
-
-            # Add empty item to make nothing selected by default
-            self.countrybox.addItem("")
-            self.statebox.addItem("")
-
-            # Add country items
-            self.country_map = {}
-            for country in countries:
-                country_id, country_name = country
-                self.countrybox.addItem(country_name)
-                self.country_map[country_name] = country_id
-        except sqlite3.Error as e:
-            self.show_error_message("Database Error", f"Could not fetch countries: {e}")
-
-    def on_country_changed(self):
-        try:
-            # Clear state combo box when country changes
-            self.statebox.clear()
-
-            # Add empty item to state combo box
-            self.statebox.addItem("")
-
-            # Only populating states box if country is selected
-            selected_country = self.countrybox.currentText()
-            if selected_country:
-                country_id = self.country_map[selected_country]
-                # Fetch states for the selected country from database
-                self.cursor.execute("SELECT name FROM locations WHERE parent_id = ?", (country_id,))
-                states = self.cursor.fetchall()
-                for state in states:
-                    self.statebox.addItem(state[0])
-        except sqlite3.Error as e:
-            self.show_error_message("Database Error", f"Could not fetch states: {e}")
 
     def register_account(self):
         try:
-            name = self.NameInput.text()
-            username = self.Username.text()
+            name = f"{self.NameInput.text().strip()} {self.LastNameInput.text().strip()}"
             email = self.emailInput.text()
-            password = self.passwordInput.text()
+            password = self.passwordInput.text()  # Note: Password should ideally be hashed before storage
             confirm_password = self.confirmPasswordInput.text()
-            address_line1 = self.addressLine1Input.text()
-            address_line2 = self.addressLine2Input.text()
-            state = self.statebox.currentText()
-            country = self.countrybox.currentText()
-            role = 'Patient'  # Default role
+            address = f"{self.addressLine1Input.text()}, {self.addressLine2Input.text()}"
+            gender = self.GenderBox.currentText()
+            birthdate = self.BirthdateEdit.date().toString("dd-MM-yyyy")
+            number_type = self.NumberType.currentText()
+            number_input = self.NumberInput.text()
+            contact_number = self.contactNumberInput.text()
 
+            # Check if all required fields are filled
+            if not all(
+                    [name.strip(), email, password, confirm_password, address.strip(), gender, birthdate, number_type,
+                     number_input.strip(), contact_number.strip()]):
+                QMessageBox.warning(self, "Input Error", "Please fill in all required fields")
+                return
 
-            # Check if name only contains alphabets
-            if not re.match(r"^[A-Za-z]+$", name):
+            # Check if name only contains alphabets and allow spaces for unique names
+            if not all(char.isalpha() or char.isspace() for char in name):
                 QMessageBox.warning(self, "Name Error", "Name should only contain alphabets")
                 return
 
-            # Check if username already exists
-            self.cursor.execute("SELECT 1 FROM Users WHERE Username = ?", (username,))
-            if self.cursor.fetchone():
-                QMessageBox.warning(self, "Username Error", "Username already exists")
+            # Check if clinic contact number is not all digits or less than 10 digits
+            if not contact_number.isdigit() or len(contact_number) < 10:
+                QtWidgets.QMessageBox.warning(self, "Application Error", "Contact number must be at least 10 digits "
+                                                    "and contain only numbers.")
                 return
 
-            # Check if email format is valid
-            if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            # Regular expression for validating an Email
+            if not re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email):
                 QMessageBox.warning(self, "Email Error", "Please enter a valid email address")
                 return
 
             # Check if email already exists
-            self.cursor.execute("SELECT 1 FROM Users WHERE Email = ?", (email,))
+            self.cursor.execute("SELECT 1 FROM Patient WHERE Patient_Email = ?", (email,))
             if self.cursor.fetchone():
                 QMessageBox.warning(self, "Email Error", "Email already exists")
                 return
@@ -118,49 +80,62 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 QMessageBox.warning(self, "Password Error", "Passwords do not match")
                 return
 
-            # Check if all required fields are filled
-            if not all([name, username, email, password, confirm_password, address_line1, state, country]):
-                QMessageBox.warning(self, "Input Error", "Please fill in all required fields")
+            # Check if gender is selected
+            if gender not in ["Male", "Female"]:
+                QMessageBox.warning(self, "Gender Error", "Please select a gender")
                 return
 
-            # Insert new user into the Users table
+            # Combine selection of NRIC/Passport with the numbers
+            number = f"{number_type}: {number_input}"
+
+            # Encode Password for security
+            hashed_password = encrypt(password)
+
+            # Insert new user into the Patient table
             query = """
-                INSERT INTO Users (name, Username, Email, Password, address_line1, address_line2, state, country, Role)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO Patient (Patient_Name, Patient_Email, Patient_Gender, Patient_Birthdate, Patient_IC_Passport, 
+                Patient_Contact_Number, Patient_Address, Patient_Password)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """
-            self.cursor.execute(query, (name, username, email, password, address_line1, address_line2, state, country, role))
+            self.cursor.execute(query, (name, email, gender, birthdate, number, contact_number, address, hashed_password))
             self.conn.commit()
 
             QMessageBox.information(self, "Registration Successful", "You have successfully registered!", QMessageBox.Ok, QMessageBox.Ok)
-            # Clear the form after successful registration
             self.clear_form()
 
-            # After showing the confirmation message, redirect to login
+            # redirect to login
             self.redirect_to_login()
+
         except sqlite3.Error as e:
             self.show_error_message("Database Error", f"Could not register account: {e}")
         except Exception as e:
             self.show_error_message("Error", f"An unexpected error occurred: {e}")
 
-    # Clear form after input registered
+    # Clear form after input registration
     def clear_form(self):
         self.NameInput.clear()
-        self.Username.clear()
+        self.LastNameInput.clear()
         self.emailInput.clear()
         self.passwordInput.clear()
         self.confirmPasswordInput.clear()
         self.addressLine1Input.clear()
         self.addressLine2Input.clear()
-        self.statebox.setCurrentIndex(0)
-        self.countrybox.setCurrentIndex(0)
+        self.GenderBox.setCurrentIndex(0)
+        self.BirthdateEdit.setDate(QtCore.QDate.currentDate())
+        self.NumberType.setCurrentIndex(0)
+        self.NumberInput.clear()
+        self.contactNumberInput.clear()
 
     def show_error_message(self, title, message):
         QMessageBox.critical(self, title, message)
 
+    # Return to login page
     def redirect_to_login(self):
+        from CAD_Login import CallADoctorApp
         self.login_window = CallADoctorApp()
         self.login_window.show()
         self.close()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
