@@ -1,3 +1,0 @@
-# Email Sender Module
-
-This module provides a simple function to send emails using the SMTP protocol with SSL. It will be used as a utility in various functions where email functionality is required, such as email verification, password recovery, notifications, etc.
