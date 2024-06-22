@@ -4,7 +4,7 @@ import re
 from PyQt5 import uic, QtWidgets, QtCore
 from PyQt5.QtWidgets import QMessageBox
 from email_sender import encrypt, send_email
-from CAD_Login import CallADoctorApp
+from CAD_Login import LoginApp
 
 # Load the UI files
 qtCreatorFileRegister = "CAD_register_ui.ui"
@@ -247,7 +247,7 @@ class ClinicRegisterApp(QtWidgets.QMainWindow, Ui_ClinicWindow):
 
     # Return to login page
     def redirect_to_login(self):
-        self.login_window = CallADoctorApp()
+        self.login_window = LoginApp()
         self.login_window.show()
         self.close()
 
