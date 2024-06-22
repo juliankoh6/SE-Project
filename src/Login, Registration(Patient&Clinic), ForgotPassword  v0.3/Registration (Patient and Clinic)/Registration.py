@@ -211,7 +211,7 @@ class ClinicRegisterApp(QtWidgets.QMainWindow, Ui_ClinicWindow):
         try:
             self.cursor.execute("""
                 INSERT INTO Clinic
-                (Clinic_Name, Clinic_Location, Clinic_Contact_Number, Clinic_Email, Owner_NRIC, Clinic_Password, Specialties, Status)
+                (Clinic_Name, Clinic_Location, Clinic_Contact_Number, Clinic_Email, Owner_NRIC, Clinic_Password, Clinic_Speciality, Status)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data['clinic_name'],
