@@ -24,11 +24,11 @@ class ClinicDashboard(QtWidgets.QMainWindow, Ui_ClinicDashboard):
 
             if data:
                 # Assuming your QLineEdit widget names are set correctly in your .ui file
-                self.lineEditClinicName.setText(data[0])  # Update these names based on actual object names in Qt Designer
-                self.lineEditSpeciality.setText(data[1])
-                self.lineEditEmail.setText(data[2])
-                self.lineEditLocation.setText(data[3])
-                self.lineEditContactNumber.setText(data[4])
+                self.ClinicName.setText(data[0])  # Update these names based on actual object names in Qt Designer
+                self.Speciality.setText(data[1])
+                self.Email.setText(data[2])
+                self.Location.setText(data[3])
+                self.ContactNumber.setText(data[4])
 
             conn.close()
         except sqlite3.Error as e:
