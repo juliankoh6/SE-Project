@@ -1,161 +1,282 @@
-import sys
 import sqlite3
-from PyQt5 import QtWidgets, uic
-from Clinic_Dashboard import Clinic_Dashboard
+from email_sender import verify_password, send_email
+from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
-from email_sender import encrypt
+import sys
+import re
 
-# Path to your .ui file
-qtCreatorFile = "Clinic_Doctor.ui"
+# Load the UI files
+qtCreatorFile = "CAD_login_page_ui.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
+qtAdminFile = 'Admin_Dashboard_ui.ui'
 
-class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, clinic_id, parent=None):
-        super(ClinicDoctorApp, self).__init__(parent)
+
+# Main application class. Handles UI and functionality of Login page
+class LoginApp(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        # Initialize the main window and setup UI components
+        super().__init__()
         self.setupUi(self)
-        self.clinic_id = clinic_id
+        self.initUI()
 
-        self.RequestsButton.clicked.connect(self.redirect_to_clinic_request)
-        self.DashboardButton.clicked.connect(self.redirect_to_clinic_dashboard)
+        # Connect to SQLite database
+        self.conn = sqlite3.connect("call_a_doctor.db")
+        self.cursor = self.conn.cursor()
 
-        # Database connection
+    def initUI(self):
+        # Connect buttons to their respective functions
+        self.LoginpushButton.clicked.connect(self.login)
+        self.RegisterButton.clicked.connect(self.register_page)
+        self.Clinics.clicked.connect(self.partnered_clinics_page)
+        self.RegisterClinicButton.clicked.connect(self.register_clinic_page)
+        self.ForgotPasswordpushButton.clicked.connect(self.forgot_password)
+
+    # Log in user after checking entered credentials
+    def login(self):
+        # Log in functionality
+        email = self.Email_line.text().strip()
+        password = self.Password_line.text().strip()
+        user_type = self.UserType.currentText()
+
+        if email == "ADMIN" and password == "ADMIN":
+            self.open_admin_dashboard()
+            return
+
+        # Check if both email and password filled properly
+        if not email and not password:
+            QMessageBox.warning(self, "Input Error", "Please enter your email and password")
+            return
+        elif not email:
+            QMessageBox.warning(self, "Input Error", "Please enter your email")
+            return
+        elif not password:
+            QMessageBox.warning(self, "Input Error", "Please enter your password")
+            return
+
+        # Regular expression for validating an Email format
+        if not re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email):
+            QMessageBox.warning(self, "Email Error", "Please enter a valid email address")
+
+        # Determine the table and fields to query based on the user type
+        table = ""
+        id_field = ""
+        name_field = ""
+        if user_type == "Patient":
+            table = "Patient"
+            id_field = "Patient_ID"
+            name_field = "Patient_Name"
+        elif user_type == "Doctor":
+            table = "Doctor"
+            id_field = "Doctor_ID"
+            name_field = "Doctor_Name"
+        elif user_type == "Clinic":
+            table = "Clinic"
+            id_field = "Clinic_ID"
+            name_field = "Clinic_Name"
+
+        query = f"SELECT {id_field}, {name_field}, {table}_Password"
+        if user_type == "Clinic":
+            query += f", Clinic_Status FROM Clinic WHERE Clinic_Email = ?"
+        else:
+            query += f" FROM {table} WHERE {table}_Email = ?"
+
+        self.cursor.execute(query, (email,))
+        result = self.cursor.fetchone()
+
+        # Check if the result is None
+        if not result:
+            QMessageBox.warning(self, "Login Failed", "Invalid email or password")
+            return
+
+        user_id = result[0]
+        user_name = result[1]
+        hashed_password = result[2]
+
+        if user_type == "Clinic":
+            clinic_status = result[3]
+            if clinic_status != 1:
+                QMessageBox.warning(self, "Login Failed", "Your Clinic has not been approved yet")
+                return
+
+        # Verify if password entered matches hashed password
+        if verify_password(password, hashed_password):
+            QMessageBox.information(self, "Login Successful", f"Welcome {user_type} {user_name}")
+            if user_type == "Doctor":
+                self.open_doctor_dashboard(user_id)
+            elif user_type == "Patient":
+                self.open_patient_dashboard(user_id)
+            elif user_type == "Clinic":
+                self.open_clinic_dashboard(user_id)
+        else:
+            QMessageBox.warning(self, "Login Failed", "Invalid email or password")
+
+    # Open Admin Dashboard
+    def open_admin_dashboard(self):
+        self.close()
+        self.admin_Dashboard_window = Admin_Dashboard()
+        self.admin_Dashboard_window.show()
+
+    # Open Doctor dashboard page for doctor user
+    def open_doctor_dashboard(self, doctor_id):
+        self.close()
+        from Doctor_Dashboard import Doctor_Dashboard
+        self.doctor_dashboard_window = Doctor_Dashboard(doctor_id)
+        self.doctor_dashboard_window.show()
+
+    # Open Doctor dashboard page for patient user
+    def open_patient_dashboard(self, patient_id):
+        self.close()
+        from Patient_Dashboard import Patient_Dashboard
+        self.patient_dashboard_window = Patient_Dashboard(patient_id)
+        self.patient_dashboard_window.show()
+
+    # Open Clinic Dashboard for Clinic admin
+    def open_clinic_dashboard(self, clinic_id):
+        self.close()
+        from Clinic_Dashboard import Clinic_Dashboard
+        self.clinic_dashboard_window = Clinic_Dashboard(clinic_id)
+        self.clinic_dashboard_window.show()
+
+    # Open Patient Register page
+    def register_page(self):
+        self.close()
+        from Registration import RegisterAccountApp
+        self.registration_window = RegisterAccountApp()
+        self.registration_window.show()
+
+    # Open Clinic Registration page (will be pending approval before officially registered)
+    def register_clinic_page(self):
+        self.close()
+        from Registration import ClinicRegisterApp
+        self.registration_clinic_window = ClinicRegisterApp()
+        self.registration_clinic_window.show()
+
+    # Open Partnered clinics page
+    def partnered_clinics_page(self):
+        self.close()
+        from Clinics_Info import ClinicInfo
+        self.partnered_clinics_window = ClinicInfo()
+        self.partnered_clinics_window.show()
+
+    # Open Forgot password page
+    def forgot_password(self):
+        self.close()
+        from ForgotPassword import ForgotPassword
+        self.forgot_password_window = ForgotPassword()
+        self.forgot_password_window.show()
+
+
+# Class that handles UI and functionality of the admin dashboard
+class Admin_Dashboard(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Admin_Dashboard, self).__init__()
+        # Load the UI
+        uic.loadUi(qtAdminFile, self)
+
+        # Connect to the SQLite database
         self.conn = sqlite3.connect('call_a_doctor.db')
         self.cursor = self.conn.cursor()
 
-        # Setup UI
-        self.initUI()
-        self.load_doctors()
-        self.populate_specialties()
+        self.current_clinic = None
+        self.load_pending_clinic()
+        # Connect buttons to their respective functions
+        self.Accept_Button.clicked.connect(self.accept_clinic)
+        self.Reject_Button.clicked.connect(self.reject_clinic)
+        self.Log_out.clicked.connect(self.redirect_to_login)
 
-    def initUI(self):
-        self.RegisterDoctorButton.clicked.connect(self.register_doctor)
-        self.SearchButton.clicked.connect(self.search_doctors)  # Ensure this is correctly connected
-        self.ShowAllButton.clicked.connect(lambda: self.load_doctors())  # Resets the doctor list
-        self.Speciality.currentIndexChanged.connect(
-            self.filter_doctors_by_specialty)  # Ensure this is called only when the index actually changes
+    # Load the first pending clinic from the database
+    def load_pending_clinic(self):
+        # Fetch the first clinic with status 0 (pending) from the database
+        self.cursor.execute("SELECT * FROM Clinic WHERE Clinic_Status = 0")
+        pending_clinic = self.cursor.fetchone()
 
-    def populate_specialties(self):
-        query = "SELECT DISTINCT Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
-        self.cursor.execute(query, (self.clinic_id,))
-        specialties = self.cursor.fetchall()
-        current_specialty = self.Speciality.currentText()
-        self.Speciality.clear()
-        self.Speciality.addItem("Show All", None)
-        for specialty in specialties:
-            self.Speciality.addItem(specialty[0], specialty[0])
+        if pending_clinic:
+            self.current_clinic = pending_clinic
+            # Map the labels to the respective columns in the database
+            labels = [self.label, self.label_2, self.label_3, self.label_4, self.label_5, self.label_6]
+            columns = {
+                'Clinic_Name': 'Clinic Name',
+                'Clinic_Speciality': 'Clinic Specialty',
+                'Owner_NRIC': 'Owner NRIC',
+                'Clinic_Email': 'Clinic Email',
+                'Clinic_Location': 'Clinic Location',
+                'Clinic_Contact_Number': 'Clinic Contact Number'
+            }
+            column_indices = {
+                'Clinic_Name': 1,
+                'Clinic_Speciality': 2,
+                'Owner_NRIC': 3,
+                'Clinic_Email': 4,
+                'Clinic_Location': 5,
+                'Clinic_Contact_Number': 6
+            }
 
-        # Set back the previously selected specialty if it still exists
-        index = self.Speciality.findText(current_specialty)
-        if index >= 0:
-            self.Speciality.setCurrentIndex(index)
+            # Update the labels with the corresponding clinic information
+            for label, col_name in zip(labels, columns.keys()):
+                label.setText(f"{columns[col_name]}: {pending_clinic[column_indices[col_name]]}")
         else:
-            self.Speciality.setCurrentIndex(0)  # Default to 'Show All' if not found
+            # If no pending clinic is found, clear the labels
+            self.current_clinic = None
+            self.clear_labels()
 
-    def showEvent(self, event):
-        super().showEvent(event)
-        self.populate_specialties()  # Ensure the latest list of specialties is always displayed when the view becomes visible
+    # Function to clear all labels if no remaining clinics that are pending approval
+    def clear_labels(self):
+        labels = [self.label, self.label_2, self.label_3, self.label_4, self.label_5, self.label_6]
+        for label in labels:
+            label.setText("")
 
-    def filter_doctors_by_specialty(self):
-        specialty = self.Speciality.currentData()
-        if specialty:
-            self.load_doctors(specialty)
+    # Function to accept a clinic's application and send an email
+    def accept_clinic(self):
+        if self.current_clinic:
+            clinic_id = self.current_clinic[0]
+            clinic_email = self.current_clinic[4]
 
-    def load_doctors(self, specialty=None, search_query=None):
-        if search_query:
-            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ? AND Doctor_Name LIKE ?"
-            self.cursor.execute(query, (self.clinic_id, f'%{search_query}%'))
-        elif specialty and specialty != "Show All":
-            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ? AND Doctor_Speciality = ?"
-            self.cursor.execute(query, (self.clinic_id, specialty))
-        else:
-            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
-            self.cursor.execute(query, (self.clinic_id,))
-
-        rows = self.cursor.fetchall()
-        self.update_doctor_table(rows)
-
-    def update_doctor_table(self, rows):
-        self.DoctorTable.setRowCount(len(rows))
-        self.DoctorTable.setColumnCount(3)  # For Name, Status, and Specialty
-        self.DoctorTable.setHorizontalHeaderLabels(['Doctor Name', 'Doctor Status', 'Doctor Specialty'])
-
-        for row_index, row_data in enumerate(rows):
-            for column_index, data in enumerate(row_data):
-                if column_index == 1:  # Convert status to text
-                    data = 'Available' if data == 1 else 'Busy'
-                self.DoctorTable.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(str(data)))
-
-        header = self.DoctorTable.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
-
-    def search_doctors(self):
-        search_text = self.SearchDoctorInput.text().strip()
-        if search_text:  # Ensure there's text to search for
-            self.load_doctors(search_query=search_text)
-
-    def show_error_message(self, title, message):
-        QMessageBox.critical(self, title, message)
-
-    def show_message_dialog(self, title, message):
-        QMessageBox.information(self, title, message)
-
-    def register_doctor(self):
-        doctor_name = self.DoctorNameInput.text().strip()
-        doctor_email = self.DoctorEmailInput.text().strip()
-        doctor_job = self.DoctorJobInput.text().strip()
-        doctor_specialties = [item.text() for item in self.SpecialityListWidget.selectedItems()]
-        doctor_password = self.DoctorPasswordInput.text().strip()
-        doctor_status = self.DoctorStatus.currentText()
-
-        # Convert status to integer
-        status_map = {'Available': 1, 'Busy': 0}
-        doctor_status_value = status_map.get(doctor_status, 1)
-
-        # Validate inputs
-        if not (doctor_name and doctor_email and doctor_job and doctor_password and doctor_specialties):
-            QMessageBox.warning(self, "Application Error",
-                                "All fields must be filled and at least one specialty must be selected!")
-            return
-
-        # Check if the email already exists
-        self.cursor.execute("SELECT Doctor_ID FROM Doctor WHERE Doctor_Email = ?", (doctor_email,))
-        if self.cursor.fetchone() is not None:
-            QMessageBox.critical(self, "Registration Failed", "Email already exists.")
-            return
-
-        # Hash the password
-        hashed_password = encrypt(doctor_password)
-
-        # Insert the new doctor into the database
-        try:
-            self.cursor.execute("""
-                INSERT INTO Doctor (Clinic_ID, Doctor_Name, Doctor_Email, Doctor_Job, Doctor_Password, Doctor_Speciality, Doctor_Status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (self.clinic_id, doctor_name, doctor_email, doctor_job, hashed_password, ', '.join(doctor_specialties),
-                  doctor_status_value))
+            # Update the clinic status to approved (1)
+            self.cursor.execute("UPDATE Clinic SET Clinic_Status = 1 WHERE Clinic_ID = ?", (clinic_id,))
             self.conn.commit()
-            QMessageBox.information(self, "Registration Successful", "Doctor has been successfully registered!")
-            self.populate_specialties()  # Refresh the specialties in the combobox
-        except sqlite3.Error as e:
-            QMessageBox.critical(self, "Database Error", str(e))
 
-    def redirect_to_clinic_request(self):
-        from clinicrequest import ClinicRequestApp  # Local import to avoid circular dependency
-        # Here, we instantiate and show the ClinicDoctorApp
-        self.clinic_request_window = ClinicRequestApp(self.clinic_id)
-        self.clinic_request_window.show()
+            # Send approval email
+            subject = "Clinic Application Approved"
+            body = "Congratulations! Your clinic application has been approved."
+            send_email(clinic_email, subject, body)
+            QtWidgets.QMessageBox.warning(self, "Clinic Accepted", "The clinic has been accepted and notified.")
+            # Load the next pending clinic
+            self.load_pending_clinic()
+        else:
+            QtWidgets.QMessageBox.warning(self, "No Pending Clinics", "There are no more clinics pending approval.")
+
+    # Reject a clinic's application and send an email
+    def reject_clinic(self):
+        if self.current_clinic:
+            clinic_id = self.current_clinic[0]
+            clinic_email = self.current_clinic[4]
+            reason = self.Reason.toPlainText().strip()
+
+            # Send rejection email
+            subject = "Clinic Application Rejected"
+            body = "We regret to inform you that your clinic application has been rejected."
+            if reason:
+                body += f" Reason: {reason}"
+            send_email(clinic_email, subject, body)
+
+            # Delete the clinic from the database
+            self.cursor.execute("DELETE FROM Clinic WHERE Clinic_ID = ?", (clinic_id,))
+            self.conn.commit()
+            QtWidgets.QMessageBox.warning(self, "Clinic Rejected", "The clinic has been successfully rejected.")
+            # Load the next pending clinic
+            self.load_pending_clinic()
+        else:
+            QtWidgets.QMessageBox.warning(self, "No Pending Clinics", "There are no more clinics pending approval.")
+
+    # Log out to login page
+    def redirect_to_login(self):
         self.close()
+        self.login_window = LoginApp()
+        self.login_window.show()
 
-    def redirect_to_clinic_dashboard(self):
-        self.clinicDashboardWindow = Clinic_Dashboard(self.clinic_id)  # Pass clinic_id
-        self.clinicDashboardWindow.show()
-        self.close()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    clinic_id = 8
-    window = ClinicDoctorApp(clinic_id)
+    window = LoginApp()
     window.show()
     sys.exit(app.exec_())
