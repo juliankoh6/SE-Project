@@ -1,5 +1,5 @@
 import sqlite3
-from email_sender import verify_password, send_email  # Ensure send_email is imported
+from email_sender import verify_password, send_email  
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import sys
