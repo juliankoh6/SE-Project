@@ -25,23 +25,50 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # Setup UI
         self.initUI()
         self.load_doctors()
+        self.populate_specialties()
 
     def initUI(self):
         self.RegisterDoctorButton.clicked.connect(self.register_doctor)
-        self.SearchButton.clicked.connect(self.search_doctors)
+        self.SearchButton.clicked.connect(self.search_doctors)  # Ensure this is correctly connected
+        self.ShowAllButton.clicked.connect(lambda: self.load_doctors())  # Resets the doctor list
+        self.Speciality.currentIndexChanged.connect(
+            self.filter_doctors_by_specialty)  # Ensure this is called only when the index actually changes
 
-    def load_doctors(self, search_query=None):
-        # If a search query is provided, filter the results based on the doctor's name
-        if search_query:
-            query = """
-            SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor 
-            WHERE Clinic_ID = ? AND Doctor_Name LIKE ?
-            """
-            self.cursor.execute(query, (self.clinic_id, f'%{search_query}%'))
+    def populate_specialties(self):
+        query = "SELECT DISTINCT Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
+        self.cursor.execute(query, (self.clinic_id,))
+        specialties = self.cursor.fetchall()
+        current_specialty = self.Speciality.currentText()
+        self.Speciality.clear()
+        self.Speciality.addItem("Show All", None)
+        for specialty in specialties:
+            self.Speciality.addItem(specialty[0], specialty[0])
+
+        # Set back the previously selected specialty if it still exists
+        index = self.Speciality.findText(current_specialty)
+        if index >= 0:
+            self.Speciality.setCurrentIndex(index)
         else:
-            query = """
-            SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?
-            """
+            self.Speciality.setCurrentIndex(0)  # Default to 'Show All' if not found
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.populate_specialties()  # Ensure the latest list of specialties is always displayed when the view becomes visible
+
+    def filter_doctors_by_specialty(self):
+        specialty = self.Speciality.currentData()
+        if specialty:
+            self.load_doctors(specialty)
+
+    def load_doctors(self, specialty=None, search_query=None):
+        if search_query:
+            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ? AND Doctor_Name LIKE ?"
+            self.cursor.execute(query, (self.clinic_id, f'%{search_query}%'))
+        elif specialty and specialty != "Show All":
+            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ? AND Doctor_Speciality = ?"
+            self.cursor.execute(query, (self.clinic_id, specialty))
+        else:
+            query = "SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
             self.cursor.execute(query, (self.clinic_id,))
 
         rows = self.cursor.fetchall()
@@ -54,21 +81,19 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         for row_index, row_data in enumerate(rows):
             for column_index, data in enumerate(row_data):
-                # Convert numeric status to text representation
-                if column_index == 1:  # Assuming status is 0 or 1
+                if column_index == 1:  # Convert status to text
                     data = 'Available' if data == 1 else 'Busy'
                 self.DoctorTable.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(str(data)))
 
-        # Configure column resizing
         header = self.DoctorTable.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)  # Stretch the first column (Doctor Name)
-        header.setSectionResizeMode(1,
-                                    QtWidgets.QHeaderView.ResizeToContents)  # Adjust the second column (Doctor Status) to content
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # Stretch the third column (Doctor Specialty)
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
 
     def search_doctors(self):
         search_text = self.SearchDoctorInput.text().strip()
-        self.load_doctors(search_text)
+        if search_text:  # Ensure there's text to search for
+            self.load_doctors(search_query=search_text)
 
     def show_error_message(self, title, message):
         QMessageBox.critical(self, title, message)
@@ -104,14 +129,17 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         hashed_password = encrypt(doctor_password)
 
         # Insert the new doctor into the database
-        self.cursor.execute("""
-            INSERT INTO Doctor (Clinic_ID, Doctor_Name, Doctor_Email, Doctor_Job, Doctor_Password, Doctor_Speciality, Doctor_Status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            self.clinic_id, doctor_name, doctor_email, doctor_job, hashed_password, ', '.join(doctor_specialties),
-            doctor_status_value))
-        self.conn.commit()
-        QMessageBox.information(self, "Registration Successful", "Doctor has been successfully registered!")
+        try:
+            self.cursor.execute("""
+                INSERT INTO Doctor (Clinic_ID, Doctor_Name, Doctor_Email, Doctor_Job, Doctor_Password, Doctor_Speciality, Doctor_Status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (self.clinic_id, doctor_name, doctor_email, doctor_job, hashed_password, ', '.join(doctor_specialties),
+                  doctor_status_value))
+            self.conn.commit()
+            QMessageBox.information(self, "Registration Successful", "Doctor has been successfully registered!")
+            self.populate_specialties()  # Refresh the specialties in the combobox
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Database Error", str(e))
 
     def redirect_to_clinic_request(self):
         from clinicrequest import ClinicRequestApp  # Local import to avoid circular dependency
