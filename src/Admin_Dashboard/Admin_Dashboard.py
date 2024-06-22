@@ -106,8 +106,8 @@ class Admin_Dashboard(QtWidgets.QMainWindow):
 
     # Log out
     def redirect_to_login(self):
-        from CAD_Login import CallADoctorApp
-        self.login_window = CallADoctorApp()
+        from CAD_Login import LoginApp
+        self.login_window = LoginApp()
         self.login_window.show()
         self.close()
 
