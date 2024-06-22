@@ -2,56 +2,134 @@ import sys
 import sqlite3
 from PyQt5 import QtWidgets, uic
 
-# Class for Clinic Details Modification page
-class EditClinicDetails(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(EditClinicDetails, self).__init__()
-        # Load the UI
-        uic.loadUi('Edit_Clinic_Details.ui', self)
+# Path to your .ui file for Edit Clinic Details
+qtCreatorFile = "Edit_Clinic_Details.ui"
+Ui_EditClinicDetails, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-        # Connect to the SQLite database
+class EditClinicDetails(QtWidgets.QMainWindow, Ui_EditClinicDetails):
+    def __init__(self, clinic_id, parent=None):
+        super(EditClinicDetails, self).__init__(parent)
+        self.setupUi(self)
+
         self.conn = sqlite3.connect('call_a_doctor.db')
         self.cursor = self.conn.cursor()
 
-        # Connect the Save Details button to the save_details function
-        self.pushButton.clicked.connect(self.save_details)
-
+        self.clinic_id = clinic_id
         self.load_clinic_details()
 
-    def load_clinic_details(self):
-        # Fetch clinic details from the database
-        clinic_id = 5  # test
-        self.cursor.execute("SELECT * FROM Clinic WHERE Clinic_ID = ?", (clinic_id,))
-        clinic = self.cursor.fetchone()
+        self.SaveDetailsButton.clicked.connect(self.save_details)
+        self.BackButton.clicked.connect(self.back_to_dashboard)
 
-        if clinic:
-            # Map the UI elements to the database columns
-            self.EditClinicName.setText(clinic[1])
-            self.EditClinicEmail.setText(clinic[4])
-            self.EditClinicLocation.setText(clinic[5])
-            self.EditContactNumber.setText(clinic[6])
+    def load_clinic_details(self):
+        try:
+            self.cursor.execute("SELECT Clinic_Name, Clinic_Contact_Number, Clinic_Email, Clinic_Location, Clinic_Speciality FROM Clinic WHERE Clinic_ID = ?", (self.clinic_id,))
+            clinic = self.cursor.fetchone()
+
+            if clinic:
+                self.EditClinicNameInput.setText(clinic[0])
+                self.EditContactNumberInput.setText(clinic[1])
+                self.EditClinicEmailInput.setText(clinic[2])
+
+                # Split the address into line 1 and line 2
+                address_parts = clinic[3].split(', ')
+                if len(address_parts) > 1:
+                    self.EditAddress1Input.setText(address_parts[0])
+                    self.EditAddress2Input.setText(", ".join(address_parts[1:]))
+                else:
+                    self.EditAddress1Input.setText(clinic[3])
+                    self.EditAddress2Input.clear()
+
+                specialties = clinic[4].split(', ') if clinic[4] else []
+                self.set_specialties(specialties)
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def set_specialties(self, specialties):
+        # List of all checkbox widgets
+        checkboxes = {
+            'General Practice': self.GeneralPracticeCheckBox,
+            'Cardiology': self.CardiologyCheckBox,
+            'Dermatology': self.DermatologyCheckBox,
+            'Endocrinology': self.EndocrinologyCheckBox,
+            'Neurology': self.NeurologyCheckBox,
+            'Obstetrics and Gynecology': self.ObstericsandGynecologyCheckBox,
+            'Psychiatry': self.PsychiatryCheckBox,
+            'Pediatrics': self.PediatricsCheckBox,
+            'Orthopedic Surgery': self.OrthopedicSurgeryCheckBox,
+            'Radiology': self.RadiologyCheckBox,
+            'Urology': self.UrologyCheckBox,
+            'Surgery (General)': self.SurgeryCheckBox
+        }
+        # Clear all checkboxes
+        for checkbox in checkboxes.values():
+            checkbox.setChecked(False)
+        # Set the checkboxes based on the specialties list
+        for specialty in specialties:
+            if specialty in checkboxes:
+                checkboxes[specialty].setChecked(True)
+
+    def get_selected_specialties(self):
+        # List of all checkbox widgets
+        checkboxes = {
+            'General Practice': self.GeneralPracticeCheckBox,
+            'Cardiology': self.CardiologyCheckBox,
+            'Dermatology': self.DermatologyCheckBox,
+            'Endocrinology': self.EndocrinologyCheckBox,
+            'Neurology': self.NeurologyCheckBox,
+            'Obstetrics and Gynecology': self.ObstericsandGynecologyCheckBox,
+            'Psychiatry': self.PsychiatryCheckBox,
+            'Pediatrics': self.PediatricsCheckBox,
+            'Orthopedic Surgery': self.OrthopedicSurgeryCheckBox,
+            'Radiology': self.RadiologyCheckBox,
+            'Urology': self.UrologyCheckBox,
+            'Surgery (General)': self.SurgeryCheckBox
+        }
+        # Collect the text of all checked checkboxes
+        specialties = [specialty for specialty, checkbox in checkboxes.items() if checkbox.isChecked()]
+        return specialties
 
     def save_details(self):
-        clinic_name = self.EditClinicName.text()
-        specialties = sorted([self.SpecialtyList.item(i).text() for i in range(self.SpecialtyList.count())])
-        clinic_specialty = ", ".join(specialties)
-        clinic_email = self.EditClinicEmail.text()
-        clinic_location = self.EditClinicLocation.text()
-        clinic_contact_number = self.EditClinicContactNumber.text()
+        try:
+            clinic_name = self.EditClinicNameInput.text()
+            specialties = sorted(set(self.get_selected_specialties()))
+            clinic_specialty = ", ".join(specialties)
+            clinic_email = self.EditClinicEmailInput.text()
+            clinic_address1 = self.EditAddress1Input.text()
+            clinic_address2 = self.EditAddress2Input.text()
+            clinic_contact_number = self.EditContactNumberInput.text()
 
-        # Update the database with the new details
-        clinic_id = 5  # test
-        self.cursor.execute("""
-            UPDATE Clinic 
-            SET Clinic_Name = ?, Clinic_Specialty = ?, Clinic_Email = ?, Clinic_Location = ?, Clinic_Contact_Number = ? 
-            WHERE Clinic_ID = ?
-        """, (clinic_name, clinic_specialty, clinic_email, clinic_location, clinic_contact_number, clinic_id))
+            # Combine address line 1 and line 2
+            clinic_address = f"{clinic_address1}, {clinic_address2}".strip(", ")
 
-        self.conn.commit()
-        QtWidgets.QMessageBox.information(self, "Success", "Clinic details updated successfully!")
+            self.cursor.execute("""
+                UPDATE Clinic 
+                SET Clinic_Name = ?, Clinic_Speciality = ?, Clinic_Email = ?, Clinic_Location = ?, Clinic_Contact_Number = ? 
+                WHERE Clinic_ID = ?
+            """, (clinic_name, clinic_specialty, clinic_email, clinic_address, clinic_contact_number, self.clinic_id))
+
+            self.conn.commit()
+            QtWidgets.QMessageBox.information(self, "Success", "Clinic details updated successfully!")
+            self.back_to_dashboard()
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    def back_to_dashboard(self):
+        from Clinic_Dashboard import Clinic_Dashboard
+        self.clinicDashboardWindow = Clinic_Dashboard(self.clinic_id)  # Pass clinic_id
+        self.clinicDashboardWindow.show()
+        self.close()
+
+    def closeEvent(self, event):
+        self.conn.close()
+        event.accept()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = EditClinicDetails()
+    clinic_id = 8  # This should be dynamically set based on the logged-in user
+    window = EditClinicDetails(clinic_id)
     window.show()
     sys.exit(app.exec_())
