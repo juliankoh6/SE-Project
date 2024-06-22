@@ -132,7 +132,7 @@ class RegisterAccountApp(QtWidgets.QMainWindow, Ui_RegisterWindow):
 
     # Return to login page
     def redirect_to_login(self):
-        self.login_window = CallADoctorApp()
+        self.login_window = LoginApp()
         self.login_window.show()
         self.close()
 
