@@ -53,6 +53,19 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.Speciality.setCurrentIndex(0)  # Default to 'Show All' if not found
 
+        self.populate_speciality_list_widget()
+
+    def populate_speciality_list_widget(self):
+        self.SpecialityListWidget.clear()
+        query = "SELECT Clinic_Speciality FROM Clinic WHERE Clinic_ID = ?"
+        self.cursor.execute(query, (self.clinic_id,))
+        clinic_specialty = self.cursor.fetchone()
+        if clinic_specialty:
+            specialties = clinic_specialty[0].split(', ')
+            for specialty in specialties:
+                item = QtWidgets.QListWidgetItem(specialty)
+                self.SpecialityListWidget.addItem(item)
+
     def showEvent(self, event):
         super().showEvent(event)
         self.populate_specialties()  # Ensure the latest list of specialties is always displayed when the view becomes visible
