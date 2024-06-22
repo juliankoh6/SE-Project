@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox
 import sqlite3
 from email_sender import send_email, encrypt
-from CAD_Login import CallADoctorApp
+from CAD_Login import LoginApp
 
 
 # Handles UI and functionality of Forgot Password page
@@ -151,7 +151,7 @@ class ResetPassword(QtWidgets.QMainWindow):
 
     # Return to login page
     def redirect_to_login(self):
-        self.login_window = CallADoctorApp()
+        self.login_window = LoginApp()
         self.login_window.show()
         self.close()
 
