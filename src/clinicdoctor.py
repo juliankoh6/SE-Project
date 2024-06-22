@@ -28,30 +28,47 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def initUI(self):
         self.RegisterDoctorButton.clicked.connect(self.register_doctor)
+        self.SearchButton.clicked.connect(self.search_doctors)
 
-    def load_doctors(self):
-        query = """
-        SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?
-        """
-        self.cursor.execute(query, (self.clinic_id,))
+    def load_doctors(self, search_query=None):
+        # If a search query is provided, filter the results based on the doctor's name
+        if search_query:
+            query = """
+            SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor 
+            WHERE Clinic_ID = ? AND Doctor_Name LIKE ?
+            """
+            self.cursor.execute(query, (self.clinic_id, f'%{search_query}%'))
+        else:
+            query = """
+            SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?
+            """
+            self.cursor.execute(query, (self.clinic_id,))
+
         rows = self.cursor.fetchall()
+        self.update_doctor_table(rows)
 
+    def update_doctor_table(self, rows):
         self.DoctorTable.setRowCount(len(rows))
         self.DoctorTable.setColumnCount(3)  # For Name, Status, and Specialty
         self.DoctorTable.setHorizontalHeaderLabels(['Doctor Name', 'Doctor Status', 'Doctor Specialty'])
 
-        # Populate the table
         for row_index, row_data in enumerate(rows):
             for column_index, data in enumerate(row_data):
-                if column_index == 1:  # Assuming status is 0 or 1, converting to text
+                # Convert numeric status to text representation
+                if column_index == 1:  # Assuming status is 0 or 1
                     data = 'Available' if data == 1 else 'Busy'
                 self.DoctorTable.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(str(data)))
 
-        # Set specific columns to stretch and others to adjust to content
+        # Configure column resizing
         header = self.DoctorTable.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)  # Stretch the first column
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)  # Adjust the second column to content
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # Stretch the third column
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)  # Stretch the first column (Doctor Name)
+        header.setSectionResizeMode(1,
+                                    QtWidgets.QHeaderView.ResizeToContents)  # Adjust the second column (Doctor Status) to content
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # Stretch the third column (Doctor Specialty)
+
+    def search_doctors(self):
+        search_text = self.SearchDoctorInput.text().strip()
+        self.load_doctors(search_text)
 
     def show_error_message(self, title, message):
         QMessageBox.critical(self, title, message)
@@ -110,7 +127,7 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    clinic_id = 1
+    clinic_id = 8
     window = ClinicDoctorApp(clinic_id)
     window.show()
     sys.exit(app.exec_())
