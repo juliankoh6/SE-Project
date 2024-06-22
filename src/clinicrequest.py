@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets, uic
 from Clinic_Dashboard import Clinic_Dashboard
+from CAD_Login import LoginApp
 
 
 qtCreatorFile = "Clinic_Request.ui"  # Ensure the path to your .ui file is correct
@@ -14,6 +15,12 @@ class ClinicRequestApp(QtWidgets.QMainWindow, Ui_ClinicRequest):
 
         self.DashboardButton.clicked.connect(self.redirect_to_clinic_dashboard)
         self.DoctorsButton.clicked.connect(self.redirect_to_clinic_doctor)
+        self.LogoutButton.clicked.connect(self.redirect_to_login)
+
+    def redirect_to_login(self):
+        self.login_window = LoginApp()
+        self.login_window.show()
+        self.close()
 
     def redirect_to_clinic_doctor(self):
         from clinicdoctor import ClinicDoctorApp  # Local import to avoid circular dependency
