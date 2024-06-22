@@ -24,9 +24,34 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Setup UI
         self.initUI()
+        self.load_doctors()
 
     def initUI(self):
         self.RegisterDoctorButton.clicked.connect(self.register_doctor)
+
+    def load_doctors(self):
+        query = """
+        SELECT Doctor_Name, Doctor_Status, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?
+        """
+        self.cursor.execute(query, (self.clinic_id,))
+        rows = self.cursor.fetchall()
+
+        self.DoctorTable.setRowCount(len(rows))
+        self.DoctorTable.setColumnCount(3)  # For Name, Status, and Specialty
+        self.DoctorTable.setHorizontalHeaderLabels(['Doctor Name', 'Doctor Status', 'Doctor Specialty'])
+
+        # Populate the table
+        for row_index, row_data in enumerate(rows):
+            for column_index, data in enumerate(row_data):
+                if column_index == 1:  # Assuming status is 0 or 1, converting to text
+                    data = 'Available' if data == 1 else 'Busy'
+                self.DoctorTable.setItem(row_index, column_index, QtWidgets.QTableWidgetItem(str(data)))
+
+        # Set specific columns to stretch and others to adjust to content
+        header = self.DoctorTable.horizontalHeader()
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)  # Stretch the first column
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)  # Adjust the second column to content
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # Stretch the third column
 
     def show_error_message(self, title, message):
         QMessageBox.critical(self, title, message)
