@@ -11,7 +11,16 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         super(ClinicDoctorApp, self).__init__(parent)
         self.setupUi(self)
         self.clinic_id = clinic_id
+
+        self.RequestsButton.clicked.connect(self.redirect_to_clinic_request)
         self.DashboardButton.clicked.connect(self.redirect_to_clinic_dashboard)
+
+    def redirect_to_clinic_request(self):
+        from clinicrequest import ClinicRequestApp  # Local import to avoid circular dependency
+        # Here, we instantiate and show the ClinicDoctorApp
+        self.clinic_request_window = ClinicRequestApp(self.clinic_id)
+        self.clinic_request_window.show()
+        self.close()
 
     def redirect_to_clinic_dashboard(self):
         self.clinicDashboardWindow = Clinic_Dashboard(self.clinic_id)  # Pass clinic_id
