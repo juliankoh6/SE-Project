@@ -78,6 +78,8 @@ class Admin_Dashboard(QtWidgets.QMainWindow):
 
             # Load the next pending clinic
             self.load_pending_clinic()
+        else:
+            QtWidgets.QMessageBox.warning(self, "No Pending Clinics", "There are no more clinics pending approval.")
 
     # Function to reject a clinic's application
     def reject_clinic(self):
@@ -99,6 +101,8 @@ class Admin_Dashboard(QtWidgets.QMainWindow):
 
             # Load the next pending clinic
             self.load_pending_clinic()
+        else:
+            QtWidgets.QMessageBox.warning(self, "No Pending Clinics", "There are no more clinics pending approval.")
 
     # Log out
     def redirect_to_login(self):
