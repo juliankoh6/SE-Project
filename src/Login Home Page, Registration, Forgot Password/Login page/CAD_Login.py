@@ -1,8 +1,8 @@
-import sys
 import sqlite3
 from email_sender import verify_password
 from PyQt5 import uic, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
+import sys
 
 # Load the UI file
 qtCreatorFile = "CAD_login_page_ui.ui"
@@ -10,7 +10,7 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
 # Main application class. Handles UI and functionality of Login page
-class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
+class LoginApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         # Initialize the main window and setup UI components
@@ -117,30 +117,27 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Open Admin dashboard for Application Admin
     def open_admin_dashboard(self):
-        # Open admin dashboard
         from Admin_Dashboard import Admin_Dashboard
         self.admin_dashboard_window = Admin_Dashboard()
         self.admin_dashboard_window.show()
         self.close()
 
-
-    # Open patient registration page
+    # Open Patient Register page
     def register_page(self):
         # Open user registration page
-        from Register_page import RegisterAccountApp
+        from Registration import RegisterAccountApp
         self.registration_window = RegisterAccountApp()
         self.registration_window.show()
         self.close()
 
-    # Open clinic registration page
+    # Open Clinic Registration page (will be pending approval before officially registered)
     def register_clinic_page(self):
         # Open clinic registration page
-        from Clinic_registration import ClinicRegisterApp
+        from Registration import ClinicRegisterApp
         self.registration_clinic_window = ClinicRegisterApp()
         self.registration_clinic_window.show()
         self.close()
 
-    # Open Partnered clinics page
     def partnered_clinics_page(self):
         # Open partnered clinics information page
         from Clinics_Info import ClinicInfo
@@ -148,7 +145,6 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.partnered_clinics_window.show()
         self.close()
 
-    # Open Forgot Password page
     def forgot_password(self):
         # Open password retrieval page
         from ForgotPassword import ForgotPassword
@@ -157,88 +153,8 @@ class CallADoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.close()
 
 
-# Handles UI and functionality of Partnered Clinics page
-class ClinicInfo(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(ClinicInfo, self).__init__()
-        uic.loadUi('Partnered_clinics_ui.ui', self)
-
-        # Set up the database connection
-        self.db = sqlite3.connect('call_a_doctor.db')
-        self.cursor = self.db.cursor()
-
-        # Retrieve clinic data that are approved
-        self.cursor.execute(
-            "SELECT Clinic_ID, Clinic_Name, Clinic_Speciality, Clinic_Contact_Number, Clinic_Location FROM Clinic "
-            "WHERE Clinic_Status = 1")
-        clinics = self.cursor.fetchall()
-
-        self.scroll_area = self.findChild(QtWidgets.QScrollArea, 'scrollArea')
-        self.scroll_widget = QtWidgets.QWidget()
-        self.scroll_widget.setObjectName("scrollWidget")
-        self.scroll_layout = QtWidgets.QVBoxLayout(self.scroll_widget)
-        self.scroll_area.setWidget(self.scroll_widget)
-        self.scroll_area.setWidgetResizable(True)
-
-        # Populate the layout with clinic data
-        for clinic in clinics:
-            self.fill_clinic(clinic)
-
-        self.commandLinkButton.clicked.connect(self.redirect_to_login)
-        self.show()
-
-    # Add Frames of clinics with their info to the page
-    def fill_clinics(self, clinic):
-        clinic_id, clinic_name, speciality, contact_number, address = clinic
-
-        # Create a frame for each clinic
-        frame = QtWidgets.QFrame()
-        frame.setFrameShape(QtWidgets.QFrame.Box)
-        frame.setFrameShadow(QtWidgets.QFrame.Raised)
-
-        # Create a vertical layout for the frame
-        vbox = QtWidgets.QVBoxLayout()
-
-        # Add clinic details to each frame
-        vbox.addWidget(QtWidgets.QLabel(f"{clinic_name}"))
-        vbox.addWidget(QtWidgets.QLabel(f"Specialties: {speciality}"))
-        vbox.addWidget(QtWidgets.QLabel(f"Contact Number: {contact_number}"))
-        vbox.addWidget(QtWidgets.QLabel(f"Address: {address}"))
-
-        # Add a button to view doctors
-        btn_view_doctors = QtWidgets.QPushButton("View Doctors")
-        btn_view_doctors.clicked.connect(lambda: self.view_doctors(clinic_id))
-        vbox.addWidget(btn_view_doctors)
-
-        # Set the layout to the frame
-        frame.setLayout(vbox)
-
-        # Add the frame to the scroll area layout
-        self.scroll_layout.addWidget(frame)
-
-    # View information of doctors of respective clinics
-    def view_doctors(self, clinic_id):
-        self.cursor.execute("SELECT Doctor_Name, Doctor_Job, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
-                            , (clinic_id,))
-        doctors = self.cursor.fetchall()
-
-        # Display doctors in a message box
-        if doctors:
-            doctor_info = "\n\n".join(
-                f"Name: {doctor[0]}\nJob: {doctor[1]}\nSpecialty: {doctor[2]}" for doctor in doctors)
-            QtWidgets.QMessageBox.information(self, "Doctors Information", f"Doctors for this clinic:\n\n{doctor_info}")
-        else:
-            QtWidgets.QMessageBox.information(self, "No Doctors", "No doctors found for this clinic.")
-
-    # Return to Login page
-    def redirect_to_login(self):
-        self.login_window = CallADoctorApp()
-        self.login_window.show()
-        self.close()
-
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = CallADoctorApp()
+    window = LoginApp()
     window.show()
     sys.exit(app.exec_())
