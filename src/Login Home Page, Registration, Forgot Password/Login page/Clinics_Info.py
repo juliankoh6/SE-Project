@@ -6,7 +6,7 @@ from PyQt5 import QtWidgets, uic
 class ClinicInfo(QtWidgets.QMainWindow):
     def __init__(self):
         super(ClinicInfo, self).__init__()
-        uic.loadUi('Clinics_Info_ui.ui', self)
+        uic.loadUi('Partnered_clinic_ui.ui', self)
 
         # Set up the database connection
         self.db = sqlite3.connect('call_a_doctor.db')
