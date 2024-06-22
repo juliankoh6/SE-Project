@@ -1,6 +1,8 @@
 import sys
 import sqlite3
 from PyQt5 import QtWidgets, uic
+from CAD_Login import LoginApp
+
 
 qtCreatorFile = "ClinicDashboard.ui"
 Ui_ClinicDashboard, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -13,6 +15,13 @@ class Clinic_Dashboard(QtWidgets.QMainWindow, Ui_ClinicDashboard):
         self.displayClinicDetails()
 
         self.EditDetails.clicked.connect(self.edit_details)
+        self.pushButton_4.clicked.connect(self.redirect_to_login)
+
+     # Return to login page
+    def redirect_to_login(self):
+        self.login_window = LoginApp()
+        self.login_window.show()
+        self.close()
 
     def displayClinicDetails(self):
         try:
