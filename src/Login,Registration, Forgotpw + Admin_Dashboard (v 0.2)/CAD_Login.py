@@ -108,6 +108,7 @@ class LoginApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.open_clinic_dashboard(user_id)
         else:
             QMessageBox.warning(self, "Login Failed", "Invalid email or password")
+            return
 
     # Open Admin Dashboard
     def open_admin_dashboard(self):
