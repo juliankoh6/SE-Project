@@ -1,6 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <widget name="__qt_fake_top_level">
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>170</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Contact Number: </string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RequestsButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Requests</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PatientsButton">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Patients</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>50</y>
+     <width>231</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Good Day,</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>380</y>
+     <width>161</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Speciality: </string>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="EditDetails">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>520</y>
+     <width>191</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Edit Details</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="popupMode">
+    <enum>QToolButton::DelayedPopup</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonIconOnly</enum>
+   </property>
+   <property name="autoRaise">
+    <bool>false</bool>
+   </property>
+   <property name="arrowType">
+    <enum>Qt::NoArrow</enum>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditLocation">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>270</y>
+     <width>491</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="QPushButton" name="DoctorsButton">
    <property name="geometry">
     <rect>
@@ -19,73 +168,31 @@
     <string>Doctors</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEditClinicName">
+  <widget class="QPushButton" name="LogoutButton">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>10</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Logout</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditEmail">
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>120</y>
+     <y>220</y>
      <width>331</width>
      <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="autoFillBackground">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>90</y>
-     <width>621</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Clinic Name:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>220</y>
-     <width>481</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Email:</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditLocation">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>270</y>
-     <width>491</width>
-     <height>111</height>
     </rect>
    </property>
    <property name="font">
@@ -139,24 +246,6 @@
     <string>Dashboard</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>170</y>
-     <width>221</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Contact Number: </string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="lineEditContactNumber">
    <property name="geometry">
     <rect>
@@ -176,63 +265,6 @@
    </property>
    <property name="readOnly">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditEmail">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>220</y>
-     <width>331</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="RequestsButton">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>10</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Requests</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>380</y>
-     <width>161</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Speciality: </string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -272,12 +304,48 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QToolButton" name="EditDetails">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>520</y>
-     <width>191</width>
+     <x>40</x>
+     <y>90</y>
+     <width>621</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Clinic Name:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>220</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Email:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditClinicName">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>120</y>
+     <width>331</width>
      <height>41</height>
     </rect>
    </property>
@@ -286,63 +354,13 @@
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="text">
-    <string>Edit Details</string>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="popupMode">
-    <enum>QToolButton::DelayedPopup</enum>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonIconOnly</enum>
-   </property>
-   <property name="autoRaise">
-    <bool>false</bool>
-   </property>
-   <property name="arrowType">
-    <enum>Qt::NoArrow</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="LogoutButton">
-   <property name="geometry">
-    <rect>
-     <x>700</x>
-     <y>10</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
+   <property name="autoFillBackground">
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Logout</string>
+    <string/>
    </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>50</y>
-     <width>231</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>18</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Good Day,</string>
-   </property>
-   <property name="wordWrap">
+   <property name="readOnly">
     <bool>true</bool>
    </property>
   </widget>
