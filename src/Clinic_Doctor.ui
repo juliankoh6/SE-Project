@@ -1,44 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <widget name="__qt_fake_top_level">
-  <widget class="QComboBox" name="Speciality">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>170</y>
-     <width>251</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>9</pointsize>
-    </font>
-   </property>
-  </widget>
-  <widget class="QLabel" name="DoctorNameLabel">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>90</y>
-     <width>181</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Doctor Name:</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="DoctorPasswordInput">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>600</y>
+     <x>620</x>
+     <y>570</y>
      <width>381</width>
      <height>31</height>
     </rect>
@@ -55,254 +22,11 @@
     <string>Enter Doctor Password Here</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="DoctorStatus">
-   <property name="geometry">
-    <rect>
-     <x>670</x>
-     <y>440</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <item>
-    <property name="text">
-     <string>Available</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Busy</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QTableWidget" name="DoctorTable">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>230</y>
-     <width>471</width>
-     <height>421</height>
-    </rect>
-   </property>
-   <property name="mouseTracking">
-    <bool>true</bool>
-   </property>
-   <property name="dragEnabled">
-    <bool>true</bool>
-   </property>
-   <property name="sortingEnabled">
-    <bool>false</bool>
-   </property>
-   <column>
-    <property name="text">
-     <string>Doctor Name</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Doctor Status</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Doctor Speciality</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QPushButton" name="ToggleStatusButton">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>670</y>
-     <width>171</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Toggle Status</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="SortSpecialityLabel">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>140</y>
-     <width>271</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Sort By Speciality</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="DoctorEmailInput">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>520</y>
-     <width>381</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Enter Doctor Email Here</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="ShowAllButton">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>170</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Show All</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="SpecialityListWidget">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>290</y>
-     <width>381</width>
-     <height>131</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="DoctorStatusLabel">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>430</y>
-     <width>181</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Doctor Status:</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="DashboardButton">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Dashboard</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="DoctorJobInput">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>210</y>
-     <width>381</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Enter Doctor Job Here</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="LogoutButton">
-   <property name="geometry">
-    <rect>
-     <x>850</x>
-     <y>10</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Logout</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="RegisterDoctorButton">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>670</y>
-     <width>171</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Register Doctor</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="DoctorJobLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>170</y>
+     <x>620</x>
+     <y>180</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -316,25 +40,22 @@
     <string>Doctor Job:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="DoctorNameInput">
+  <widget class="QLabel" name="DoctorPasswordLabel">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>130</y>
-     <width>381</width>
-     <height>31</height>
+     <x>620</x>
+     <y>530</y>
+     <width>181</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>Enter Doctor Name Here</string>
+    <string>Doctor Password:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="DoctorsButton">
@@ -355,30 +76,176 @@
     <string>Doctors</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="SearchDoctorInput">
+  <widget class="QPushButton" name="DeleteDoctorButton">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>80</y>
-     <width>291</width>
+     <y>660</y>
+     <width>171</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Delete Doctor </string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="DoctorEmailInput">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>490</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="placeholderText">
-    <string>Search Doctor Name Here</string>
-   </property>
-   <property name="clearButtonEnabled">
-    <bool>true</bool>
+    <string>Enter Doctor Email Here</string>
    </property>
   </widget>
-  <widget class="QLabel" name="DoctorEmailLabel">
+  <widget class="QLineEdit" name="DoctorNameInput">
    <property name="geometry">
     <rect>
-     <x>530</x>
-     <y>480</y>
+     <x>620</x>
+     <y>140</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Enter Doctor Name Here</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ShowAllButton">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>190</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Show All</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SearchButton">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>100</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="DoctorJobInput">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>220</y>
+     <width>381</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Enter Doctor Job Here</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DashboardButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Dashboard</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RegisterDoctorButton">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>630</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Register Doctor</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ChooseSpecialityLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>260</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -389,7 +256,25 @@
     </font>
    </property>
    <property name="text">
-    <string>Doctor Email:</string>
+    <string>Choose Speciality:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LogoutButton">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>10</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Logout</string>
    </property>
   </widget>
   <widget class="QPushButton" name="RequestsButton">
@@ -410,11 +295,60 @@
     <string>Requests</string>
    </property>
   </widget>
-  <widget class="QLabel" name="ChooseSpecialityLabel">
+  <widget class="QComboBox" name="Speciality">
    <property name="geometry">
     <rect>
-     <x>530</x>
+     <x>30</x>
+     <y>190</y>
+     <width>301</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="DoctorTable">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
      <y>250</y>
+     <width>551</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="dragEnabled">
+    <bool>true</bool>
+   </property>
+   <property name="sortingEnabled">
+    <bool>false</bool>
+   </property>
+   <column>
+    <property name="text">
+     <string>Doctor Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Doctor Email</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Doctor Speciality</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLabel" name="DoctorEmailLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>450</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -425,27 +359,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Choose Speciality:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="ManageDoctorslabel">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>50</y>
-     <width>221</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Manage Doctors</string>
+    <string>Doctor Email:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="PatientsButton">
@@ -466,53 +380,100 @@
     <string>Patients</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="SearchButton">
+  <widget class="QLabel" name="MyDoctorLabel">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>80</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Search</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
-   </property>
-  </widget>
-  <widget class="QLabel" name="DoctorPasswordLabel">
-   <property name="geometry">
-    <rect>
-     <x>530</x>
-     <y>560</y>
-     <width>181</width>
+     <x>30</x>
+     <y>60</y>
+     <width>221</width>
      <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>Doctor Password:</string>
+    <string>My Doctors:</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="DeleteDoctorButton">
+  <widget class="QLabel" name="ManageDoctorslabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>60</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Register Doctors:</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="DoctorInfoTable">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>670</y>
+     <y>420</y>
+     <width>551</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Request ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Visit Date</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Patient Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Request Reason</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QLineEdit" name="SearchDoctorInput">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>351</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Search Doctor Name Here</string>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ClearFormButton">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>660</y>
      <width>171</width>
      <height>41</height>
     </rect>
@@ -523,7 +484,53 @@
     </font>
    </property>
    <property name="text">
-    <string>Delete Doctor </string>
+    <string>Clear Form</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="DoctorNameLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>100</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Doctor Name:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SortSpecialityLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>160</y>
+     <width>271</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Sort By Speciality</string>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="SpecialityListWidget">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>300</y>
+     <width>381</width>
+     <height>131</height>
+    </rect>
    </property>
   </widget>
  </widget>
