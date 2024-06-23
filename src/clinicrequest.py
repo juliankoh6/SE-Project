@@ -1,7 +1,9 @@
 import sys
 import sqlite3
 from PyQt5 import QtWidgets, uic
+from PyQt5.QtWidgets import QMessageBox
 from CAD_Login import LoginApp
+
 
 qtCreatorFile = "Clinic_Request.ui"  # Your UI file name
 Ui_ClinicRequest, QtBaseClass = uic.loadUiType(qtCreatorFile)
@@ -113,10 +115,6 @@ class ClinicRequestApp(QtWidgets.QMainWindow, Ui_ClinicRequest):
         self.login_window = LoginApp()
         self.login_window.show()
         self.close()
-
-    def closeEvent(self, event):
-        self.conn.close()
-        event.accept()
 
 
 if __name__ == "__main__":
