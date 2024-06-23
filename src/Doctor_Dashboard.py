@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
-class DoctorDashboard(QMainWindow):
+class Doctor_Dashboard(QMainWindow):
     def __init__(self, doctor_id, db_path):
         super().__init__()
         self.setWindowTitle("Doctor Dashboard")
@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     doctor_id = 5  # Example doctor ID, you can change this as needed
-    window = DoctorDashboard(doctor_id, db_path)
+    window = Doctor_Dashboard(doctor_id, db_path)
     window.show()
     sys.exit(app.exec_())
 
