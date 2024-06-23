@@ -19,24 +19,6 @@
     <string>Patients</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="SortButton">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>530</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Sort</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="DashboardButton">
    <property name="geometry">
     <rect>
@@ -58,8 +40,8 @@
   <widget class="QPushButton" name="AssignButton">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>280</y>
+     <x>880</x>
+     <y>520</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -71,16 +53,6 @@
    </property>
    <property name="text">
     <string>Assign</string>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="SortSpecialityList">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>330</y>
-     <width>341</width>
-     <height>181</height>
-    </rect>
    </property>
   </widget>
   <widget class="QLabel" name="RequestPageLabel">
@@ -104,10 +76,10 @@
   <widget class="QTableWidget" name="IncomingRequestWidget">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>40</x>
      <y>160</y>
      <width>931</width>
-     <height>111</height>
+     <height>331</height>
     </rect>
    </property>
    <column>
@@ -146,24 +118,6 @@
     </property>
    </column>
   </widget>
-  <widget class="QPushButton" name="ShowAllButton">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>530</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Show All</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="RequestsButton">
    <property name="geometry">
     <rect>
@@ -185,8 +139,8 @@
   <widget class="QPushButton" name="RejectButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
-     <y>280</y>
+     <x>770</x>
+     <y>520</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -200,48 +154,10 @@
     <string>Reject</string>
    </property>
   </widget>
-  <widget class="QTreeWidget" name="DoctorTree">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>330</y>
-     <width>351</width>
-     <height>231</height>
-    </rect>
-   </property>
-   <column>
-    <property name="text">
-     <string>Doctor Name</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>Status</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QLabel" name="SortBySpecialityLabel">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>290</y>
-     <width>321</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Select to Sort by Speciality:</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="IncomingPatientRequestlabel">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>40</x>
      <y>110</y>
      <width>281</width>
      <height>41</height>
