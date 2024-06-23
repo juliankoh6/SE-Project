@@ -1,338 +1,398 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ClinicPatients</class>
- <widget class="QMainWindow" name="ClinicPatients">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>979</width>
-    <height>617</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Call A Doctor - Clinic Patients Page</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="PatientsButton">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>10</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
+ <widget name="__qt_fake_top_level">
+  <widget class="QPushButton" name="ApplyButton">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>150</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Apply</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="PatientDetailsTable">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>550</y>
+     <width>951</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <column>
     <property name="text">
-     <string>Patients</string>
+     <string>Email Address</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="DashboardButton">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
+   </column>
+   <column>
     <property name="text">
-     <string>Dashboard</string>
+     <string>Contact Number</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="RequestsButton">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>10</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
+   </column>
+   <column>
     <property name="text">
-     <string>Requests</string>
+     <string>Gender</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="DoctorsButton">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>10</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
+   </column>
+   <column>
     <property name="text">
-     <string>Doctors</string>
+     <string>Birthday</string>
     </property>
-   </widget>
-   <widget class="QPushButton" name="LogoutButton">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>10</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
+   </column>
+   <column>
     <property name="text">
-     <string>Logout</string>
+     <string>IC / Passport Number</string>
     </property>
-   </widget>
-   <widget class="QDateEdit" name="ChooseDate">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>120</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="showGroupSeparator" stdset="0">
-     <bool>false</bool>
-    </property>
-    <property name="calendarPopup">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>291</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="placeholderText">
-     <string>Search Patient Name Here</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ApplyButton">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>120</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
+   </column>
+   <column>
     <property name="text">
-     <string>Apply</string>
+     <string>Address</string>
     </property>
-   </widget>
-   <widget class="QTableWidget" name="PatientTable">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>190</y>
-      <width>951</width>
-      <height>381</height>
-     </rect>
+   </column>
+  </widget>
+  <widget class="QLabel" name="SelectDatelabel">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>120</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Select Date:</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="PatientTable">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>220</y>
+     <width>951</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>Patient Name</string>
     </property>
-    <column>
-     <property name="text">
-      <string>Patient Name</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Request ID</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Speciality</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Doctor Name</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Visit Date</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Request Status</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Request Reason</string>
-     </property>
-    </column>
-   </widget>
-   <widget class="QComboBox" name="PatientRequestStatus">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>120</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
+   </column>
+   <column>
+    <property name="text">
+     <string>Request ID</string>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
+   </column>
+   <column>
+    <property name="text">
+     <string>Speciality</string>
     </property>
-    <property name="mouseTracking">
-     <bool>true</bool>
+   </column>
+   <column>
+    <property name="text">
+     <string>Doctor Name</string>
     </property>
-    <property name="tabletTracking">
-     <bool>false</bool>
+   </column>
+   <column>
+    <property name="text">
+     <string>Visit Date</string>
     </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::NoContextMenu</enum>
+   </column>
+   <column>
+    <property name="text">
+     <string>Request Status</string>
     </property>
-    <property name="whatsThis">
-     <string/>
+   </column>
+   <column>
+    <property name="text">
+     <string>Request Reason</string>
     </property>
-    <property name="accessibleName">
-     <string/>
-    </property>
-    <property name="accessibleDescription">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="editable">
-     <bool>false</bool>
-    </property>
-    <property name="currentText">
+   </column>
+  </widget>
+  <widget class="QLabel" name="RequestStateLabel">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>120</y>
+     <width>151</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Request State:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RequestsButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Requests</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DashboardButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Dashboard</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LogoutButton">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>10</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Logout</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="PatientRequestStatus">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>150</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="tabletTracking">
+    <bool>false</bool>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="accessibleName">
+    <string/>
+   </property>
+   <property name="accessibleDescription">
+    <string/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentText">
+    <string>Accepted</string>
+   </property>
+   <item>
+    <property name="text">
      <string>Accepted</string>
     </property>
-    <item>
-     <property name="text">
-      <string>Accepted</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Rejected</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLabel" name="SearchPatientNamelabel">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>251</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
+   </item>
+   <item>
     <property name="text">
-     <string>Search for Patient Name:</string>
+     <string>Rejected</string>
     </property>
-   </widget>
-   <widget class="QLabel" name="SelectDatelabel">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>90</y>
-      <width>181</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Select Date:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>90</y>
-      <width>151</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Request State:</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ApplyButton_2">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>120</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Clear all</string>
-    </property>
-   </widget>
+   </item>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QLabel" name="PatientDetailsLabel">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>520</y>
+     <width>281</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Patient Details:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PatientsButton">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Patients</string>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="ChooseDate">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>150</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="showGroupSeparator" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SearchPatientNamelabel">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>120</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Search for Patient Name:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="SearchPatientInput">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>150</y>
+     <width>291</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="placeholderText">
+    <string>Search Patient Name Here</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ClearAllButton">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>150</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Clear all</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DoctorsButton">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Doctors</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="PatientPageLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>341</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Patient Page</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections/>
 </ui>
