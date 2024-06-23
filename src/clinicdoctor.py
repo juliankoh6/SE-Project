@@ -36,7 +36,9 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.SearchButton.clicked.connect(self.search_doctors)
         self.ShowAllButton.clicked.connect(self.load_doctors)
         self.Speciality.currentIndexChanged.connect(self.filter_doctors_by_specialty)
+        self.DeleteDoctorButton.clicked.connect(self.delete_doctor)
         self.SpecialityListWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.DoctorTable.itemSelectionChanged.connect(self.handle_doctor_selection)
 
     def populate_specialties(self):
         query = "SELECT DISTINCT Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
@@ -68,8 +70,10 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.SpecialityListWidget.addItem(item)
 
     def filter_doctors_by_specialty(self):
-        specialty = self.Speciality.currentData()
-        if specialty:
+        specialty = self.Speciality.currentText()
+        if specialty == "Show All":
+            self.load_doctors()
+        else:
             self.load_doctors(specialty=specialty)
 
     def load_doctors(self, specialty=None, search_query=None):
@@ -89,7 +93,7 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def update_doctor_table(self, rows):
         self.DoctorTable.setRowCount(len(rows))
         self.DoctorTable.setColumnCount(3)
-        self.DoctorTable.setHorizontalHeaderLabels(['Doctor Name', 'Doctor Email', 'Doctor Specialty'])
+        self.DoctorTable.setHorizontalHeaderLabels(['Doctor Name', 'Doctor Email', 'Doctor Speciality'])
 
         for row_index, row_data in enumerate(rows):
             for column_index, data in enumerate(row_data):
@@ -106,14 +110,20 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         if search_text:
             self.load_doctors(search_query=search_text)
 
-    def delete_doctor(self):
+    def handle_doctor_selection(self):
         selection = self.DoctorTable.selectionModel()
         if not selection.hasSelection():
+            self.selected_doctor_name = None
+        else:
+            row_index = selection.currentIndex().row()
+            self.selected_doctor_name = self.DoctorTable.item(row_index, 0).text()
+
+    def delete_doctor(self):
+        if not hasattr(self, 'selected_doctor_name') or not self.selected_doctor_name:
             QMessageBox.warning(self, "Selection Required", "Please select a doctor to delete.")
             return
 
-        row_index = selection.currentIndex().row()
-        doctor_name = self.DoctorTable.item(row_index, 0).text()
+        doctor_name = self.selected_doctor_name
 
         reply = QMessageBox.question(self, "Confirm Deletion", f"Are you sure you want to delete the doctor '{doctor_name}'?",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
