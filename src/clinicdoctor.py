@@ -19,7 +19,7 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.RequestsButton.clicked.connect(self.redirect_to_clinic_request)
         self.DashboardButton.clicked.connect(self.redirect_to_clinic_dashboard)
-        self.PatientsButton.clicked.connect(self.redirect_to_clinic_request)
+        self.PatientsButton.clicked.connect(self.redirect_to_clinic_patient)
         self.LogoutButton.clicked.connect(self.redirect_to_login)
 
         # Database connection
@@ -171,6 +171,12 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         from clinicrequest import ClinicRequestApp
         self.clinic_request_window = ClinicRequestApp(self.clinic_id)
         self.clinic_request_window.show()
+        self.close()
+
+    def redirect_to_clinic_patient(self):
+        from clinicpatients import ClinicPatientApp  # Local import to avoid circular dependency
+        self.clinic_patient_window = ClinicPatientApp(self.clinic_id)
+        self.clinic_patient_window.show()
         self.close()
 
     def redirect_to_login(self):
