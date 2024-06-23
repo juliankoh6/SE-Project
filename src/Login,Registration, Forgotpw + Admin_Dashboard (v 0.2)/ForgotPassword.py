@@ -124,7 +124,7 @@ class ForgotPassword(QtWidgets.QMainWindow):
 class ResetPassword(QtWidgets.QMainWindow):
     def __init__(self, email, table):
         super(ResetPassword, self).__init__()
-        uic.loadUi('ResetPassword_ui.ui', self)
+        uic.loadUi('ui/ResetPassword_ui.ui', self)
 
         self.email = email
         self.table = table
