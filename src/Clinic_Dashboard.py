@@ -17,7 +17,7 @@ class Clinic_Dashboard(QtWidgets.QMainWindow, Ui_ClinicDashboard):
         self.LogoutButton.clicked.connect(self.redirect_to_login)
         self.DoctorsButton.clicked.connect(self.redirect_to_clinic_doctor)
         self.RequestsButton.clicked.connect(self.redirect_to_clinic_request)
-        self.PatientsButton.clicked.connect(self.redirect_to_clinic_request)
+        self.PatientsButton.clicked.connect(self.redirect_to_clinic_patient)
 
     def redirect_to_clinic_patient(self):
         from clinicpatients import ClinicPatientApp  # Local import to avoid circular dependency
