@@ -17,6 +17,13 @@ class Clinic_Dashboard(QtWidgets.QMainWindow, Ui_ClinicDashboard):
         self.LogoutButton.clicked.connect(self.redirect_to_login)
         self.DoctorsButton.clicked.connect(self.redirect_to_clinic_doctor)
         self.RequestsButton.clicked.connect(self.redirect_to_clinic_request)
+        self.PatientsButton.clicked.connect(self.redirect_to_clinic_request)
+
+    def redirect_to_clinic_patient(self):
+        from clinicpatients import ClinicPatientApp  # Local import to avoid circular dependency
+        self.clinic_patient_window = ClinicPatientApp(self.clinic_id)
+        self.clinic_patient_window.show()
+        self.close()
 
     def redirect_to_clinic_request(self):
         from clinicrequest import ClinicRequestApp  # Local import to avoid circular dependency
@@ -65,7 +72,6 @@ class Clinic_Dashboard(QtWidgets.QMainWindow, Ui_ClinicDashboard):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    clinic_id = 8  # This should be dynamically set based on the logged-in user
-    window = Clinic_Dashboard(clinic_id)
+    window = LoginApp()
     window.show()
     sys.exit(app.exec_())
