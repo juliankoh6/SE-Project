@@ -1,78 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <widget name="__qt_fake_top_level">
-  <widget class="QPushButton" name="PatientsButton">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>10</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Patients</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="DashboardButton">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>10</y>
-     <width>141</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Dashboard</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="AssignButton">
-   <property name="geometry">
-    <rect>
-     <x>880</x>
-     <y>520</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Assign</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="RequestPageLabel">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>60</y>
-     <width>221</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Requests Page</string>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="IncomingRequestWidget">
    <property name="geometry">
     <rect>
@@ -118,6 +46,24 @@
     </property>
    </column>
   </widget>
+  <widget class="QPushButton" name="RejectButton">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>520</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Reject</string>
+   </property>
+  </widget>
   <widget class="QPushButton" name="RequestsButton">
    <property name="geometry">
     <rect>
@@ -136,11 +82,31 @@
     <string>Requests</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="RejectButton">
+  <widget class="QLabel" name="RequestPageLabel">
    <property name="geometry">
     <rect>
-     <x>770</x>
-     <y>520</y>
+     <x>20</x>
+     <y>60</y>
+     <width>221</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Requests Page</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LogoutButton">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>10</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -151,7 +117,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Reject</string>
+    <string>Logout</string>
    </property>
   </widget>
   <widget class="QLabel" name="IncomingPatientRequestlabel">
@@ -172,6 +138,60 @@
     <string>Incoming Patient Request:</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="AssignButton">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>520</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Assign</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="DashboardButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Dashboard</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PatientsButton">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Patients</string>
+   </property>
+  </widget>
   <widget class="QPushButton" name="DoctorsButton">
    <property name="geometry">
     <rect>
@@ -188,24 +208,6 @@
    </property>
    <property name="text">
     <string>Doctors</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="LogoutButton">
-   <property name="geometry">
-    <rect>
-     <x>900</x>
-     <y>10</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Logout</string>
    </property>
   </widget>
  </widget>
