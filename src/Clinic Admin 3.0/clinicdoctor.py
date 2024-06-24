@@ -81,7 +81,7 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.load_doctors(specialty=specialty, search_query=search_text)
 
     def load_doctors(self, specialty=None, search_query=None):
-        query = "SELECT Doctor_Name, Doctor_Email, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ?"
+        query = "SELECT Doctor_Name, Doctor_Email, Doctor_Speciality FROM Doctor WHERE Clinic_ID = ? AND Doctor_Status = 1"
         params = [self.clinic_id]
 
         if specialty and specialty != "Show All":
@@ -168,13 +168,13 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if reply == QMessageBox.Yes:
             try:
-                self.cursor.execute("DELETE FROM Doctor WHERE Doctor_Name = ? AND Clinic_ID = ?",
+                self.cursor.execute("UPDATE Doctor SET Doctor_Status = 0 WHERE Doctor_Name = ? AND Clinic_ID = ?",
                                     (doctor_name, self.clinic_id))
                 self.conn.commit()
-                QMessageBox.information(self, "Success", "Doctor deleted successfully.")
+                QMessageBox.information(self, "Success", f"Doctor {doctor_name} is resigned.")
                 self.load_doctors()
             except sqlite3.Error as e:
-                QMessageBox.critical(self, "Database Error", f"Failed to delete doctor: {e}")
+                QMessageBox.critical(self, "Database Error", f"Failed to update doctor status: {e}")
 
     def register_doctor(self):
         doctor_name = self.DoctorNameInput.text().strip()
@@ -197,8 +197,8 @@ class ClinicDoctorApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         try:
             self.cursor.execute("""
-                INSERT INTO Doctor (Clinic_ID, Doctor_Name, Doctor_Email, Doctor_Job, Doctor_Password, Doctor_Speciality) 
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO Doctor (Clinic_ID, Doctor_Name, Doctor_Email, Doctor_Job, Doctor_Password, Doctor_Speciality, Doctor_Status) 
+                VALUES (?, ?, ?, ?, ?, ?, 1)
             """, (
             self.clinic_id, doctor_name, doctor_email, doctor_job, hashed_password, ', '.join(doctor_specialties)))
             self.conn.commit()
