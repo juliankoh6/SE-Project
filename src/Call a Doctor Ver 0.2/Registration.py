@@ -192,15 +192,7 @@ class ClinicRegisterApp(QtWidgets.QMainWindow, Ui_ClinicWindow):
         confirm_password = self.PasswordInput2.text()
         specialties = sorted([item.text() for item in self.SpecialtyList.selectedItems()], key=str.lower)
         status = "0"
-
-        print("Data collected:")
-        print(f"Clinic Name: {clinic_name}")
-        print(f"Address: {address}")
-        print(f"Clinic Contact Number: {clinic_contact_number}")
-        print(f"Clinic Email: {clinic_email}")
-        print(f"Owner NRIC: {owner_nric}")
-        print(f"Specialties: {specialties}")
-
+        
         # Error handling for inputs
         if not all([clinic_name, address, clinic_contact_number, clinic_email, owner_nric, password,
                     confirm_password]) or not specialties:
