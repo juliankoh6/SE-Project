@@ -59,7 +59,7 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
             ['Email Address', 'Contact Number', 'Gender', 'Birthday', 'IC / Passport', 'Address']
         )
         self.RequestInfoTable.setHorizontalHeaderLabels(
-            ['Request ID', 'Doctor', 'Speciality', 'Request Reason']
+            ['Request ID', 'Doctor Name', 'Doctor Status', 'Speciality', 'Request Reason']
         )
 
         self.stretch_table_headers(self.PatientTable)
@@ -111,6 +111,7 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
         WHERE pr.Clinic_ID = ?
         AND (? = '' OR p.Patient_Name LIKE ? OR pr.Request_ID = ?)
         AND (? = '' OR pr.Request_Date = ?)
+        AND pr.Request_State IN (1, 2)
         """
         params = [self.clinic_id, search_term, f'%{search_term}%', search_term if search_term.isdigit() else -1, selected_date, selected_date]
 
@@ -165,7 +166,12 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
         header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
 
         query = """
-        SELECT pr.Request_ID, d.Doctor_Name, d.Doctor_Speciality, pr.Request_Reason
+        SELECT pr.Request_ID, d.Doctor_Name, 
+               CASE d.Doctor_Status 
+                   WHEN 1 THEN 'Working' 
+                   WHEN 0 THEN 'Resigned' 
+               END as Doctor_Status, 
+               d.Doctor_Speciality, pr.Request_Reason
         FROM Patient_Request pr
         JOIN Doctor d ON pr.Doctor_ID = d.Doctor_ID
         WHERE pr.Request_ID = ?
