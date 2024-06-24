@@ -69,7 +69,8 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
     def stretch_table_headers(self, table_widget):
         header = table_widget.horizontalHeader()
         for column in range(header.count()):
-            header.setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            header.setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
 
     def load_patient_requests(self):
         query = """
@@ -158,8 +159,10 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
             item = QtWidgets.QTableWidgetItem(str(data))
             self.PatientDetailsTable.setItem(0, col_index, item)
 
-        # Stretch the columns to fit the table
-        self.stretch_table_headers(self.PatientDetailsTable)
+        # Resize columns to fit content and then stretch the last column
+        self.PatientDetailsTable.resizeColumnsToContents()
+        header = self.PatientDetailsTable.horizontalHeader()
+        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
 
         query = """
         SELECT pr.Request_ID, d.Doctor_Name, d.Doctor_Speciality, pr.Request_Reason
@@ -175,8 +178,10 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
             item = QtWidgets.QTableWidgetItem(str(data))
             self.RequestInfoTable.setItem(0, col_index, item)
 
-        # Stretch the columns to fit the table
-        self.stretch_table_headers(self.RequestInfoTable)
+        # Resize columns to fit content and then stretch the last column
+        self.RequestInfoTable.resizeColumnsToContents()
+        header = self.RequestInfoTable.horizontalHeader()
+        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
 
     def redirect_to_incoming_clinic_request(self):
         from clinicincomingrequest import ClinicIncomingRequestApp  # Local import to avoid circular dependency
