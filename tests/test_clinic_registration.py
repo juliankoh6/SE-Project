@@ -1,7 +1,11 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from Registration import ClinicRegisterApp
+import logging
+
+# Configure logging to show only critical messages
+logging.basicConfig(level=logging.CRITICAL)
 
 # Ensure a QApplication instance is running
 @pytest.fixture(scope='module')
@@ -14,8 +18,12 @@ def app():
 def clinic_register_app(app):
     return ClinicRegisterApp()
 
+
 @patch('PyQt5.QtWidgets.QMessageBox.warning')
 def test_empty_fields(mock_warning, clinic_register_app):
+    # Set up database connection and cursor
+    logging.info("Database connection and cursor initialized successfully")
+
     clinic_register_app.ClinicNameInput = MagicMock()
     clinic_register_app.ClinicNameInput.text.return_value = ""
     clinic_register_app.addressLine1Input = MagicMock()
@@ -149,7 +157,13 @@ def test_nric_invalid(mock_warning, clinic_register_app):
     mock_warning.assert_called_once_with(clinic_register_app, "NRIC Error", "NRIC must be 12 digits and contain only numbers.")
 
 @patch('PyQt5.QtWidgets.QMessageBox.warning')
-def test_email_already_exists(mock_warning, clinic_register_app):
+def test_email_already_exists(mock_warning, clinic_register_app, caplog):
+    # Mocking the database response
+    mock_conn = MagicMock()
+    mock_cursor = MagicMock()
+    clinic_register_app.conn = mock_conn
+    clinic_register_app.cursor = mock_cursor
+    mock_cursor.fetchone.return_value = (1,)
     # Mocking user input
     clinic_register_app.ClinicNameInput = MagicMock()
     clinic_register_app.ClinicNameInput.text.return_value = "Test Clinic"
@@ -172,16 +186,41 @@ def test_email_already_exists(mock_warning, clinic_register_app):
     mock_specialty_item.text.return_value = "Cardiology"
     clinic_register_app.SpecialtyList.selectedItems.return_value = [mock_specialty_item]
 
-    # Mocking the database response
+    clinic_register_app.send_application()
+
+    mock_warning.assert_called_once_with(clinic_register_app, "Email Error", "Email already exists")
+
+def test_valid_registration(clinic_register_app, caplog):
+    # Mock database connection and cursor
     mock_conn = MagicMock()
     mock_cursor = MagicMock()
     clinic_register_app.conn = mock_conn
     clinic_register_app.cursor = mock_cursor
-    mock_cursor.fetchone.return_value = (1,)
 
-    clinic_register_app.send_application()
+    # Mocking user input
+    clinic_register_app.ClinicNameInput = MagicMock()
+    clinic_register_app.ClinicNameInput.text.return_value = "Test Clinic"
+    clinic_register_app.addressLine1Input = MagicMock()
+    clinic_register_app.addressLine1Input.text.return_value = "Address Line 1"
+    clinic_register_app.addressLine2Input = MagicMock()
+    clinic_register_app.addressLine2Input.text.return_value = "Address Line 2"
+    clinic_register_app.ContactNumberInput = MagicMock()
+    clinic_register_app.ContactNumberInput.text.return_value = "1234567890"
+    clinic_register_app.ClinicEmailInput = MagicMock()
+    clinic_register_app.ClinicEmailInput.text.return_value = "existing@example.com"
+    clinic_register_app.Owner_NRIC = MagicMock()
+    clinic_register_app.Owner_NRIC.text.return_value = "123456789012"
+    clinic_register_app.PasswordInput = MagicMock()
+    clinic_register_app.PasswordInput.text.return_value = "password123"
+    clinic_register_app.PasswordInput2 = MagicMock()
+    clinic_register_app.PasswordInput2.text.return_value = "password123"
+    clinic_register_app.SpecialtyList = MagicMock()
+    mock_specialty_item = MagicMock()
+    mock_specialty_item.text.return_value = "Cardiology"
+    clinic_register_app.SpecialtyList.selectedItems.return_value = [mock_specialty_item]
 
-    mock_warning.assert_called_once_with(clinic_register_app, "Email Error", "Email already exists")
+    # Mock the database response
+    mock_cursor.fetchone.return_value = None
 
 @patch('Registration.QMessageBox.warning')
 def test_redirect_to_login(mock_warning, clinic_register_app):
