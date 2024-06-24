@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ClinicRequest</class>
+ <widget class="QMainWindow" name="ClinicRequest">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1010</width>
+    <height>591</height>
+   </rect>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Call A Doctor - Clinic Incoming Request Page</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="DoctorsButton">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>10</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Doctors</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LogoutButton">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>10</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DashboardButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Dashboard</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="IncomingRequestsButton">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>10</y>
+      <width>181</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Incoming Requests</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RejectButton">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>520</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Reject</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AssignButton">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>520</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Assign</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="MyRequestsButton">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>10</y>
+      <width>141</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>My Requests</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="IncomingRequestWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>140</y>
+      <width>931</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+    <column>
+     <property name="text">
+      <string>Request ID</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Patient Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Gender</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Birtday</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Doctor Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Visit Date</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Visit Time</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Request Reason</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="RequestPageLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Incoming Patients Requests:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
