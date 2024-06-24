@@ -69,8 +69,7 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
     def stretch_table_headers(self, table_widget):
         header = table_widget.horizontalHeader()
         for column in range(header.count()):
-            header.setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
+            header.setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
 
     def load_patient_requests(self):
         query = """
@@ -98,7 +97,7 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
     def apply_filters(self):
         status_filter = self.PatientRequestStatus.currentText()
         selected_date = self.ChooseDate.date().toString("yyyy-MM-dd") if self.ChooseDate.date() else ''
-        search_name = self.SearchPatientInput.text().strip()
+        search_term = self.SearchPatientInput.text().strip()
 
         query = """
         SELECT pr.Request_ID, p.Patient_Name, pr.Request_Date, pr.Request_Time, 
@@ -108,11 +107,11 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
                END as Request_Status
         FROM Patient_Request pr
         JOIN Patient p ON pr.Patient_ID = p.Patient_ID
-        WHERE pr.Clinic_ID = ? 
-        AND (? = '' OR p.Patient_Name LIKE ?) 
+        WHERE pr.Clinic_ID = ?
+        AND (? = '' OR p.Patient_Name LIKE ? OR pr.Request_ID = ?)
         AND (? = '' OR pr.Request_Date = ?)
         """
-        params = [self.clinic_id, search_name, f'%{search_name}%', selected_date, selected_date]
+        params = [self.clinic_id, search_term, f'%{search_term}%', search_term if search_term.isdigit() else -1, selected_date, selected_date]
 
         if status_filter == 'Accepted':
             query += " AND pr.Request_State = 1"
@@ -159,10 +158,8 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
             item = QtWidgets.QTableWidgetItem(str(data))
             self.PatientDetailsTable.setItem(0, col_index, item)
 
-        # Resize columns to fit content and then stretch the last column
-        self.PatientDetailsTable.resizeColumnsToContents()
-        header = self.PatientDetailsTable.horizontalHeader()
-        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
+        # Stretch the columns to fit the table
+        self.stretch_table_headers(self.PatientDetailsTable)
 
         query = """
         SELECT pr.Request_ID, d.Doctor_Name, d.Doctor_Speciality, pr.Request_Reason
@@ -178,10 +175,8 @@ class ClinicRequestsApp(QtWidgets.QMainWindow, Ui_ClinicRequests):
             item = QtWidgets.QTableWidgetItem(str(data))
             self.RequestInfoTable.setItem(0, col_index, item)
 
-        # Resize columns to fit content and then stretch the last column
-        self.RequestInfoTable.resizeColumnsToContents()
-        header = self.RequestInfoTable.horizontalHeader()
-        header.setSectionResizeMode(header.count() - 1, QtWidgets.QHeaderView.Stretch)
+        # Stretch the columns to fit the table
+        self.stretch_table_headers(self.RequestInfoTable)
 
     def redirect_to_incoming_clinic_request(self):
         from clinicincomingrequest import ClinicIncomingRequestApp  # Local import to avoid circular dependency
