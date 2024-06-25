@@ -62,7 +62,7 @@ class Ui_Request_Form(object):
                 print(patient_id)
 
                 cursor.execute('SELECT * FROM Patient_Request WHERE Doctor_ID = ?', (doctor_id,))
-                find_date = cursor.fetchall()/
+                find_date = cursor.fetchall()
                 datetime_result = 0
                 for items in find_date:
                     print(request_date)
